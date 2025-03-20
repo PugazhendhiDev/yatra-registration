@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/checkid/:id",
+      "destination": "/index.html"
+    }
+  ]
+}
