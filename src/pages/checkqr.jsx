@@ -151,6 +151,7 @@ function Checkqr() {
         pauseOnHover: false,
         draggable: true,
       });
+    }
   }
 
   return (
