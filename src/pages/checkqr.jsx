@@ -13,6 +13,8 @@ function Checkqr() {
 
   const [decryptToken, setDecryptToken] = useState(null);
 
+  const [userData, setUserData] = useState(null);
+
   const id = decodeURIComponent(uid.id);
 
   const [isVerified, setIsVerified] = useState(false);
@@ -46,22 +48,54 @@ function Checkqr() {
   }, []);
 
   useEffect(() => {
-    const encryptedBytes = CryptoJS.enc.Base64.parse(id);
+    async function decryption() {
+      const encryptedBytes = CryptoJS.enc.Base64.parse(id);
 
-    const iv = encryptedBytes.words.slice(0, 4);
-    const encrypted = encryptedBytes.words.slice(4);
+      const iv = encryptedBytes.words.slice(0, 4);
+      const encrypted = encryptedBytes.words.slice(4);
 
-    const ivWordArray = CryptoJS.lib.WordArray.create(iv, 16);
+      const ivWordArray = CryptoJS.lib.WordArray.create(iv, 16);
 
-    const key = CryptoJS.SHA256(import.meta.env.VITE_TOKEN_PASSWORD);
+      const key = CryptoJS.SHA256(import.meta.env.VITE_TOKEN_PASSWORD);
 
-    const decrypted = CryptoJS.AES.decrypt(
-      { ciphertext: CryptoJS.lib.WordArray.create(encrypted) },
-      key,
-      { iv: ivWordArray, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
-    );
+      const decrypted = CryptoJS.AES.decrypt(
+        { ciphertext: CryptoJS.lib.WordArray.create(encrypted) },
+        key,
+        {
+          iv: ivWordArray,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7,
+        }
+      );
 
-    setDecryptToken(decrypted.toString(CryptoJS.enc.Utf8));
+      setDecryptToken(decrypted.toString(CryptoJS.enc.Utf8));
+
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) return navigate("/");
+
+        if (!decrypted.toString(CryptoJS.enc.Utf8)) return;
+
+        const verified = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/participants/get-details/${2621}`,
+          {
+            headers: {
+              Authorization: `Bearer ${decrypted.toString(CryptoJS.enc.Utf8)}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (verified.data && verified.status == 200) {
+          setUserData(verified.data.participant);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    decryption();
   }, []);
 
   async function verify() {
@@ -86,21 +120,21 @@ function Checkqr() {
         }
       );
 
-  if (verified.data && verified.status == 200) {
+      if (verified.data && verified.status == 200) {
         toast(String(verified.data.message), {
-        onClose: () => {
-    if (verified.status == 200) {
-      navigate("/qrscanner");
-    }
-  },
-  position: "top-center",
-  autoClose: 3000,
-  hideProgressBar: false,
-  closeOnClick: false,
-  pauseOnHover: false,
-  draggable: true,
-  theme: "light",
-});
+          onClose: () => {
+            if (verified.status == 200) {
+              navigate("/qrscanner");
+            }
+          },
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          theme: "light",
+        });
       }
       setIsVerified(false);
     } catch (err) {
@@ -123,9 +157,12 @@ function Checkqr() {
       <Header />
       <div className="body-wrapper">
         <ToastContainer />
-        {decryptToken && (
+        {decryptToken && userData && (
           <div className="checkqr-wrapper">
             <p>{decryptToken}</p>
+            <h1>{userData.name}</h1>
+            <p>{userData.phone}</p>
+            <p>{userData.email}</p>
           </div>
         )}
         {!isVerified ? (
