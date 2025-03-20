@@ -11,7 +11,6 @@ function App() {
         <Route path="/" element={<Signin />} />
         <Route path="/qrscanner" element={<QrScanner />} />
         <Route path="/checkId/:id" element={<Checkqr />} />
-        <Route path="/viewLogs" element={<Viewlogs />} />
       </Routes>
     </BrowserRouter>
   );
