@@ -138,7 +138,7 @@ function Checkqr() {
       }
       setIsVerified(false);
     } catch (err) {
-      toast.error("Not registered.", {
+      toast.error(err, {
         onClose: () => {
           setIsVerified(false);
         },
