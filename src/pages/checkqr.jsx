@@ -69,7 +69,7 @@ function Checkqr() {
     try {
       const token = localStorage.getItem("token");
 
-      if (!token) return;
+      if (!token) return navigate("/");
 
       if (!decryptToken) return;
 

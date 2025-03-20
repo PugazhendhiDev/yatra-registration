@@ -3,7 +3,6 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
 import axios from "axios";
-import CryptoJS from "crypto-js";
 
 function QrScanner() {
   const [id, setId] = useState(null);
@@ -47,29 +46,8 @@ function QrScanner() {
   }
 
   function submit(result) {
-    const encryptedBytes = CryptoJS.enc.Base64.parse(result[0].rawValue);
-
-    // Extract IV (first 16 bytes)
-    const iv = encryptedBytes.words.slice(0, 4); // First 16 bytes
-    const encrypted = encryptedBytes.words.slice(4); // Remaining encrypted content
-
-    // Convert IV to WordArray
-    const ivWordArray = CryptoJS.lib.WordArray.create(iv, 16);
-
-    // Derive key using SHA256 (same as Python)
-    const key = CryptoJS.SHA256("1234");
-
-    // Decrypt
-    const decrypted = CryptoJS.AES.decrypt(
-      { ciphertext: CryptoJS.lib.WordArray.create(encrypted) },
-      key,
-      { iv: ivWordArray, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
-    );
-
-    setId(decrypted.toString(CryptoJS.enc.Utf8));
-
-    const uid = encodeURIComponent(decrypted.toString(CryptoJS.enc.Utf8));
-    navigate(`/checkId/${uid}`);
+    const id = encodeURIComponent(result[0].rawValue);
+    navigate(`/checkId/${id}`);
   }
 
   return (
