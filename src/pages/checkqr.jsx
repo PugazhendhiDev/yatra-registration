@@ -138,7 +138,7 @@ function Checkqr() {
       }
       setIsVerified(false);
     } catch (err) {
-      toast.error(err, {
+      toast.error(err.response.message, {
         onClose: () => {
           setIsVerified(false);
         },
