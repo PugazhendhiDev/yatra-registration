@@ -209,3 +209,10 @@ body {
   width: 90%;
   word-wrap: break-word;
 }
+
+.get-data .user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
