@@ -15,7 +15,7 @@ function QrScanner() {
     async function verifyToken() {
       const token = localStorage.getItem("token");
 
-      if (token) return navigate("/");
+      if (!token) return navigate("/");
 
       try {
         const user = await axios.get(
