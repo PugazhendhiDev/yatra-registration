@@ -78,7 +78,9 @@ function Checkqr() {
         if (!decrypted.toString(CryptoJS.enc.Utf8)) return;
 
         const verified = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/participants/get-details/${decrypted.toString(CryptoJS.enc.Utf8)}`,
+          `${
+            import.meta.env.VITE_SERVER_URL
+          }/participants/get-details/${decrypted.toString(CryptoJS.enc.Utf8)}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -138,7 +140,8 @@ function Checkqr() {
       }
       setIsVerified(false);
     } catch (err) {
-      const errorMessage = err.response.data?.message || "An unexpected error occurred";
+      const errorMessage =
+        err.response.data?.message || "An unexpected error occurred";
       toast.error(errorMessage, {
         onClose: () => {
           setIsVerified(false);
