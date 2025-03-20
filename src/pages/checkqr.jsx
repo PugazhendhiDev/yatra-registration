@@ -87,7 +87,7 @@ function Checkqr() {
       );
 
   if (verified.data && verified.status == 200) {
-        toast(String(verified.data), {
+        toast(String(verified.data.message), {
         onClose: () => {
     if (verified.status == 200) {
       navigate("/qrscanner");
