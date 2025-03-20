@@ -206,4 +206,6 @@ body {
 
 .get-data {
   text-align: left;
+  width: 90%;
+  word-wrap: break-word;
 }
