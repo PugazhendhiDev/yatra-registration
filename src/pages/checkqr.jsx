@@ -78,7 +78,7 @@ function Checkqr() {
         if (!decrypted.toString(CryptoJS.enc.Utf8)) return;
 
         const verified = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/participants/get-details/${2621}`,
+          `${import.meta.env.VITE_SERVER_URL}/participants/get-details/${decrypted.toString(CryptoJS.enc.Utf8)}`,
           {
             headers: {
               Authorization: `Bearer ${decrypted.toString(CryptoJS.enc.Utf8)}`,
