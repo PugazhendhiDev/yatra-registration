@@ -86,21 +86,21 @@ function Checkqr() {
         }
       );
 
-      if (verified.data && verified.status == 200) {
-        toast(verified.data, {
-          onClose: () => {
-            if (verified.status == 200) {
-              navigate("/qrscanner");
-            }
-          },
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          theme: "light",
-        });
+  if (verified.data && verified.status == 200) {
+        toast(String(verified.data), {
+        onClose: () => {
+    if (verified.status == 200) {
+      navigate("/qrscanner");
+    }
+  },
+  position: "top-center",
+  autoClose: 3000,
+  hideProgressBar: false,
+  closeOnClick: false,
+  pauseOnHover: false,
+  draggable: true,
+  theme: "light",
+});
       }
       setIsVerified(false);
     } catch (err) {
