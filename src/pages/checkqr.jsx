@@ -81,7 +81,7 @@ function Checkqr() {
           `${import.meta.env.VITE_SERVER_URL}/participants/get-details/${decrypted.toString(CryptoJS.enc.Utf8)}`,
           {
             headers: {
-              Authorization: `Bearer ${decrypted.toString(CryptoJS.enc.Utf8)}`,
+              Authorization: `Bearer $${token}`,
               "Content-Type": "application/json",
             },
           }
