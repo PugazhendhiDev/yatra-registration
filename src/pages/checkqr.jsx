@@ -138,9 +138,11 @@ function Checkqr() {
       }
       setIsVerified(false);
     } catch (err) {
-      toast.error(err.response.data.message, {
+      const errorMessage = err.response.data?.message || "An unexpected error occurred";
+      toast.error(errorMessage, {
         onClose: () => {
           setIsVerified(false);
+          navigate("/qrscanner");
         },
         position: "top-center",
         autoClose: 3000,
@@ -149,7 +151,6 @@ function Checkqr() {
         pauseOnHover: false,
         draggable: true,
       });
-    }
   }
 
   return (
