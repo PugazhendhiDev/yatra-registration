@@ -165,26 +165,30 @@ function ManualVerification() {
 
         <div className="get-data">
           {data.map((user, index) => (
-            <div key={index} className="user">
-              <p>Name:</p>
-              <h2>{user.name}</h2>
-              <p>Phone no.:</p>
-              <h3>{user.phone}</h3>
-              <p>Email:</p>
-              <h3>{user.email}</h3>
+            <div>
+              <div key={index}>
+                <p>Name:</p>
+                <h2>{user.name}</h2>
+                <p>Phone no.:</p>
+                <h3>{user.phone}</h3>
+                <p>Email:</p>
+                <h3>{user.email}</h3>
+              </div>
 
-              {!isVerified ? (
-                <button
-                  className="qr-btn manual-btn"
-                  onClick={() => verify(user.id)}
-                >
-                  Verify
-                </button>
-              ) : (
-                <button className="qr-btn manual-btn" disabled>
-                  <PulseLoader color="#ffffff" size={10} />
-                </button>
-              )}
+              <div className="verify-btn">
+                {!isVerified ? (
+                  <button
+                    className="qr-btn manual-btn"
+                    onClick={() => verify(user.id)}
+                  >
+                    Verify
+                  </button>
+                ) : (
+                  <button className="qr-btn manual-btn" disabled>
+                    <PulseLoader color="#ffffff" size={10} />
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>

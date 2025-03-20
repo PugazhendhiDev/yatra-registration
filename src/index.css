@@ -210,7 +210,8 @@ body {
   word-wrap: break-word;
 }
 
-.get-data .user {
+.get-data .verify-btn {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
