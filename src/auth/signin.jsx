@@ -18,7 +18,7 @@ function Signin() {
     async function verifyToken() {
       const token = localStorage.getItem("token");
 
-      if (!token) return navigate("/");
+      if (!token) return;
 
       try {
         const user = await axios.get(
@@ -31,11 +31,11 @@ function Signin() {
           }
         );
 
-        if (!user.data) {
-          navigate("/");
+        if (user.data) {
+          navigate("/qrscanner");
         }
       } catch (err) {
-        navigate("/");
+        return;
       }
     }
 
