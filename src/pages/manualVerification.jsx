@@ -173,6 +173,7 @@ function ManualVerification() {
                 <h3>{user.phone}</h3>
                 <p>Email:</p>
                 <h3>{user.email}</h3>
+                {user.attendance ? <h2>Present</h2> : <h2>Absent</h2>}
               </div>
 
               <div className="verify-btn">
